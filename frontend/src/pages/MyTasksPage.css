@@ -1,0 +1,63 @@
+.tasks-sections { display: flex; flex-direction: column; gap: 24px; }
+
+.tasks-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tasks-count {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Space Mono', monospace;
+}
+
+.tasks-table { padding: 0; overflow: hidden; }
+
+.task-row-full {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.task-row-full:last-child { border-bottom: none; }
+.task-row-full:hover { background: var(--bg-hover); }
+
+.task-priority-indicator {
+  width: 4px;
+  height: 40px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.task-row-main { flex: 1; min-width: 0; }
+
+.task-row-title {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-row-project {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.task-row-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: 'Space Mono', monospace;
+  min-width: 90px;
+  text-align: right;
+}
+
+.task-row-date.overdue { color: var(--danger); }

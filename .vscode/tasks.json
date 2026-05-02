@@ -1,0 +1,106 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "📦 Install All Dependencies",
+      "type": "shell",
+      "command": "npm install --prefix backend && npm install --prefix frontend",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "name": "Install"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🗃️ Run DB Migrations",
+      "type": "shell",
+      "command": "node src/config/migrate.js",
+      "options": {
+        "cwd": "${workspaceFolder}/backend",
+        "env": { "NODE_ENV": "development" }
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "name": "Migration"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🖥️ Start Backend (Dev)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "name": "Backend :5000"
+      },
+      "problemMatcher": {
+        "owner": "node",
+        "pattern": { "regexp": "." },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*starting.*$",
+          "endsPattern": "^.*running on port.*$"
+        }
+      }
+    },
+    {
+      "label": "🌐 Start Frontend (Dev)",
+      "type": "shell",
+      "command": "npm start",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "name": "Frontend :3000"
+      },
+      "problemMatcher": {
+        "owner": "react",
+        "pattern": { "regexp": "." },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Compiling...",
+          "endsPattern": "Compiled successfully"
+        }
+      }
+    },
+    {
+      "label": "🔥 Start Full Stack",
+      "dependsOn": ["🖥️ Start Backend (Dev)", "🌐 Start Frontend (Dev)"],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🏗️ Build for Production",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new",
+        "name": "Build"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

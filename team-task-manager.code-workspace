@@ -1,0 +1,77 @@
+{
+  "folders": [
+    { "name": "Root", "path": "." },
+    { "name": "Backend", "path": "./backend" },
+    { "name": "Frontend", "path": "./frontend" }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/build": true
+    },
+    "emmet.includeLanguages": { "javascript": "javascriptreact" }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-node-azure-pack",
+      "christian-kohler.path-intellisense",
+      "eamodio.gitlens"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug Backend",
+        "cwd": "${workspaceFolder}/backend",
+        "program": "${workspaceFolder}/backend/src/server.js",
+        "envFile": "${workspaceFolder}/backend/.env",
+        "console": "integratedTerminal",
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Start Backend",
+        "type": "shell",
+        "command": "npm run dev",
+        "options": { "cwd": "${workspaceFolder}/backend" },
+        "group": "build",
+        "presentation": { "panel": "new", "name": "Backend" }
+      },
+      {
+        "label": "Start Frontend",
+        "type": "shell",
+        "command": "npm start",
+        "options": { "cwd": "${workspaceFolder}/frontend" },
+        "group": "build",
+        "presentation": { "panel": "new", "name": "Frontend" }
+      },
+      {
+        "label": "Run Migration",
+        "type": "shell",
+        "command": "node src/config/migrate.js",
+        "options": { "cwd": "${workspaceFolder}/backend" },
+        "presentation": { "panel": "new", "name": "Migration" }
+      },
+      {
+        "label": "Install All",
+        "type": "shell",
+        "command": "npm install --prefix backend && npm install --prefix frontend",
+        "options": { "cwd": "${workspaceFolder}" },
+        "group": "build"
+      }
+    ]
+  }
+}

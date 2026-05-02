@@ -1,0 +1,234 @@
+### TaskFlow API — VS Code REST Client
+### Install "REST Client" extension (humao.rest-client) to use this file
+### Set @token after login
+
+@baseUrl = http://localhost:5000/api
+@token = YOUR_JWT_TOKEN_HERE
+@projectId = YOUR_PROJECT_ID_HERE
+@taskId = YOUR_TASK_ID_HERE
+
+
+### ========================================
+### AUTH
+### ========================================
+
+### Signup
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+###
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+###
+
+### Get Profile
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
+
+###
+
+### Update Profile
+PUT {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "John Smith"
+}
+
+
+### ========================================
+### DASHBOARD
+### ========================================
+
+### Get Dashboard Stats
+GET {{baseUrl}}/dashboard
+Authorization: Bearer {{token}}
+
+###
+
+### Get My Tasks
+GET {{baseUrl}}/dashboard/my-tasks
+Authorization: Bearer {{token}}
+
+
+### ========================================
+### PROJECTS
+### ========================================
+
+### List All Projects
+GET {{baseUrl}}/projects
+Authorization: Bearer {{token}}
+
+###
+
+### Create Project
+POST {{baseUrl}}/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Website Redesign",
+  "description": "Complete overhaul of the company website",
+  "due_date": "2025-06-30"
+}
+
+###
+
+### Get Project
+GET {{baseUrl}}/projects/{{projectId}}
+Authorization: Bearer {{token}}
+
+###
+
+### Update Project
+PUT {{baseUrl}}/projects/{{projectId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Website Redesign v2",
+  "status": "active"
+}
+
+###
+
+### Delete Project
+DELETE {{baseUrl}}/projects/{{projectId}}
+Authorization: Bearer {{token}}
+
+
+### ========================================
+### PROJECT MEMBERS
+### ========================================
+
+### Get Members
+GET {{baseUrl}}/projects/{{projectId}}/members
+Authorization: Bearer {{token}}
+
+###
+
+### Add Member
+POST {{baseUrl}}/projects/{{projectId}}/members
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "jane@example.com",
+  "role": "member"
+}
+
+###
+
+### Remove Member (replace userId)
+DELETE {{baseUrl}}/projects/{{projectId}}/members/USER_ID_HERE
+Authorization: Bearer {{token}}
+
+
+### ========================================
+### TASKS
+### ========================================
+
+### List Tasks
+GET {{baseUrl}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+
+###
+
+### List Tasks — Filter by status
+GET {{baseUrl}}/projects/{{projectId}}/tasks?status=in_progress
+Authorization: Bearer {{token}}
+
+###
+
+### Create Task
+POST {{baseUrl}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Design new homepage layout",
+  "description": "Create wireframes and high-fidelity mockups for the homepage redesign",
+  "priority": "high",
+  "status": "todo",
+  "due_date": "2025-05-15"
+}
+
+###
+
+### Get Task
+GET {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+###
+
+### Update Task Status
+PUT {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "in_progress"
+}
+
+###
+
+### Update Task — Full
+PUT {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Design new homepage layout",
+  "priority": "critical",
+  "status": "review",
+  "due_date": "2025-05-10"
+}
+
+###
+
+### Delete Task
+DELETE {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+
+### ========================================
+### COMMENTS
+### ========================================
+
+### Get Comments
+GET {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+
+###
+
+### Add Comment
+POST {{baseUrl}}/projects/{{projectId}}/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "I've started working on this. Should be done by EOD."
+}
+
+
+### ========================================
+### HEALTH
+### ========================================
+
+### Health Check
+GET http://localhost:5000/health
