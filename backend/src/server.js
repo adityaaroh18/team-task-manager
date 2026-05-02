@@ -1,4 +1,16 @@
 require('dotenv').config();
+
+// 🔥 Global error handlers (important for Railway)
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('❌ Unhandled Rejection:', err);
+});
+
+console.log("🚀 Starting server...");
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -14,9 +26,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 🔥 ROOT ROUTE (IMPORTANT for Railway)
+// ✅ ROOT ROUTE (simple for Railway healthcheck)
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Server running 🚀' });
+  res.send('OK');
 });
 
 // Health check
@@ -33,6 +45,7 @@ app.use('/api/dashboard', require('./routes/dashboard'));
 // Serve React in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../../frontend/build');
+
   app.use(express.static(buildPath));
 
   app.get('*', (req, res) => {
@@ -46,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-// 🔥 IMPORTANT: bind to 0.0.0.0
+// Start server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, '0.0.0.0', () => {
