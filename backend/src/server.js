@@ -2,12 +2,12 @@ require('dotenv').config();
 
 process.on('uncaughtException', (err) => {
   console.error('❌ Uncaught Exception:', err);
-  process.exit(1); // ← Add this, Railway needs process to exit on crash
+  process.exit(1);
 });
 
 process.on('unhandledRejection', (err) => {
   console.error('❌ Unhandled Rejection:', err);
-  process.exit(1); // ← Add this too
+  process.exit(1);
 });
 
 console.log("🚀 Starting server...");
@@ -26,8 +26,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health routes
-app.get('/', (req, res) => res.send('OK'));
+// ✅ ONLY health route at root
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -38,10 +37,12 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 
-// Serve React in production
+// ✅ Serve React in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../../frontend/build');
   app.use(express.static(buildPath));
+
+  // ✅ This now handles '/' and serves React
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(buildPath, 'index.html'));
