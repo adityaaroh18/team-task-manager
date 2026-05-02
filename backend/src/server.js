@@ -14,6 +14,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 🔥 ROOT ROUTE (IMPORTANT for Railway)
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Server running 🚀' });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -29,6 +34,7 @@ app.use('/api/dashboard', require('./routes/dashboard'));
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../../frontend/build');
   app.use(express.static(buildPath));
+
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(buildPath, 'index.html'));
@@ -40,8 +46,10 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
+// 🔥 IMPORTANT: bind to 0.0.0.0
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
