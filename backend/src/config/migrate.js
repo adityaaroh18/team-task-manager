@@ -33,7 +33,7 @@ const createTables = async () => {
       )
     `);
 
-    // Project members table (with roles)
+    // Project members table
     await client.query(`
       CREATE TABLE IF NOT EXISTS project_members (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -94,8 +94,8 @@ const createTables = async () => {
     throw err;
   } finally {
     client.release();
-    await pool.end();
+    // ✅ REMOVED pool.end() — so server can reuse the connection
   }
 };
 
-createTables();
+module.exports = createTables; // ✅ Export it

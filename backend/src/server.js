@@ -16,6 +16,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
+const createTables = require('./config/migrate'); // ✅ Import migrations
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ ONLY health route at root
+// Health route
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -37,12 +38,10 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 
-// ✅ Serve React in production
+// Serve React in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../../frontend/build');
   app.use(express.static(buildPath));
-
-  // ✅ This now handles '/' and serves React
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(buildPath, 'index.html'));
@@ -54,9 +53,22 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+
+// ✅ Run migrations first, then start server
+const startServer = async () => {
+  try {
+    await createTables();
+    console.log('✅ Database tables ready');
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 module.exports = app;
