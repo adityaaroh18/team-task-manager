@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
-  LayoutDashboard, FolderKanban, CheckSquare, LogOut, User, ChevronRight
+  LayoutDashboard, FolderKanban, CheckSquare, LogOut, ChevronRight
 } from 'lucide-react';
 import './Layout.css';
 

@@ -46,10 +46,6 @@ export default function TaskDrawer({ task, projectId, members, onClose }) {
     setComment('');
   };
 
-  const dueDateStr = task.due_date && isValid(parseISO(task.due_date))
-    ? format(parseISO(task.due_date), 'MMM d, yyyy')
-    : null;
-
   const createdAtStr = task.created_at && isValid(parseISO(task.created_at))
     ? format(parseISO(task.created_at), 'MMM d, yyyy')
     : null;

@@ -7,9 +7,6 @@ import EmptyState from '../components/EmptyState';
 import './MyTasksPage.css';
 
 const STATUS_ORDER = ['todo', 'in_progress', 'review', 'done'];
-const STATUS_LABELS = {
-  todo: 'To Do', in_progress: 'In Progress', review: 'Review', done: 'Done',
-};
 
 const PRIORITY_COLORS = {
   low: '#64748b', medium: '#38bdf8', high: '#f59e0b', critical: '#ef4444',
