@@ -3,12 +3,8 @@
 A full-stack team task manager with role-based access control, kanban boards, and real-time dashboards.
 
 ## 🚀 Live Demo
-> **Railway URL:** `[Add your URL after deployment]`
+> **Railway URL:** (https://team-task-manager-production-756b.up.railway.app/login)
 
-## 📹 Demo Video
-> `[Add your 2-5 min video link here]`
-
----
 
 ## 🏗️ Tech Stack
 
